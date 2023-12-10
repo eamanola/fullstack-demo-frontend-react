@@ -9,7 +9,7 @@ const reducer = (state, action) => {
 
   switch (action.type) {
     case 'USER_SET':
-      newState = action.user;
+      newState = { ...action.user };
       break;
 
     case 'USER_RM':

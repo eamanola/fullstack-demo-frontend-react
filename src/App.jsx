@@ -8,57 +8,44 @@ import {
   fromLocalStorage as fromLocalStorageAction,
 } from './reducers/user';
 
+import {
+  init as initNotesAction,
+  clear as clearNotesAction,
+  add as addNoteAction,
+  update as updateNoteAction,
+  remove as removeNoteAction,
+} from './reducers/notes';
+
 import userService from './services/users';
 
-/*
-import noteService from './services/notes';
-
-// userService.create({ password: 'dsssd', email: 'foo1@example.com' });
-
-userService.fetchToken({ password: 'dsssd', email: 'foo1@example.com' })
-  .then(async (token) => {
-    const note = await noteService.create({ token }, { public: false, text: 'foo' });
-
-    return { note, token };
-  })
-  .then(async ({ note, token }) => {
-    const noteById = await noteService.byId({ token }, note.id);
-    console.log(noteById);
-
-    return { token };
-  })
-  .then(async ({ token }) => {
-    const notesByOwner = await noteService.byOwner({ token });
-    console.log(notesByOwner);
-
-    return { token, note: notesByOwner[0] };
-  })
-  .then(async ({ token, note }) => {
-    const updateNote = await noteService.update({ token }, { ...note, text: 'bar' });
-    console.log(updateNote);
-
-    return { token, note: updateNote };
-  })
-  .then(async ({ token, note }) => {
-    await noteService.remove({ token }, note.id);
-
-    const removedNote = await noteService.byId({ token }, note.id);
-    console.log(removedNote);
-
-    const notesByOwner = await noteService.byOwner({ token });
-    console.log(notesByOwner);
-  });
-*/
 const App = () => {
-  const user = useSelector((state) => state.user);
   const dispatch = useDispatch();
+
+  const user = useSelector((state) => state.user);
+  const notes = useSelector((state) => state.notes);
 
   useEffect(() => {
     dispatch(fromLocalStorageAction());
   }, []);
 
+  useEffect(() => {
+    if (user) {
+      dispatch(initNotesAction(user));
+    } else {
+      dispatch(clearNotesAction());
+    }
+  }, [user]);
+
   const email = 'foo2@example.com';
   const password = '1223';
+
+  const signup = async () => {
+    try {
+      await userService.create({ email, password });
+    } catch ({ message }) {
+      console.log(message);
+    }
+  };
 
   const login = async () => {
     try {
@@ -76,9 +63,25 @@ const App = () => {
     }
   };
 
-  const signup = async () => {
+  const addNote = async () => {
     try {
-      await userService.create({ email, password });
+      await dispatch(addNoteAction(user, { text: 'foo', public: false }));
+    } catch ({ message }) {
+      console.log(message);
+    }
+  };
+
+  const updateNote = async (updatedNote) => {
+    try {
+      dispatch(updateNoteAction(user, updatedNote));
+    } catch ({ message }) {
+      console.log(message);
+    }
+  };
+
+  const removeNote = async (note) => {
+    try {
+      dispatch(removeNoteAction(user, note));
     } catch ({ message }) {
       console.log(message);
     }
@@ -94,6 +97,40 @@ const App = () => {
         { !user && <button type="button" onClick={signup}>signup</button> }
         { !user && <button type="button" onClick={login}>login</button> }
         { !!user && <button type="button" onClick={logout}>logout</button> }
+
+        {
+          user && (
+            <>
+              <div>
+                <button type="button" onClick={addNote}>Add new</button>
+              </div>
+              {
+                (notes || []).map((note) => (
+                  <div key={note.id}>
+                    <span>
+                      { note.text }
+                      &nbsp;
+                      { note.public ? 'public' : 'private' }
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => updateNote({ ...note, text: (note.text === 'foo' ? 'bar' : 'foo') })}
+                    >
+                      update text
+                    </button>
+                    <button
+                      type="button"
+                      onClick={() => updateNote({ ...note, public: !note.public })}
+                    >
+                      update visibility
+                    </button>
+                    <button type="button" onClick={() => removeNote(note)}>remove</button>
+                  </div>
+                ))
+              }
+            </>
+          )
+        }
       </div>
     </>
   );
