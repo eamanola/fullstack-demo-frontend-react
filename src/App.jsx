@@ -1,7 +1,16 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+
+import { useSelector, useDispatch } from 'react-redux';
+
+import {
+  login as loginAction,
+  logout as logoutAction,
+  fromLocalStorage as fromLocalStorageAction,
+} from './reducers/user';
+
+import userService from './services/users';
 
 /*
-import userService from './services/users';
 import noteService from './services/notes';
 
 // userService.create({ password: 'dsssd', email: 'foo1@example.com' });
@@ -40,8 +49,54 @@ userService.fetchToken({ password: 'dsssd', email: 'foo1@example.com' })
     console.log(notesByOwner);
   });
 */
-const App = () => (
-  <div>Hello react</div>
-);
+const App = () => {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fromLocalStorageAction());
+  }, []);
+
+  const email = 'foo2@example.com';
+  const password = '1223';
+
+  const login = async () => {
+    try {
+      await dispatch(loginAction({ email, password }));
+    } catch ({ message }) {
+      console.log(message);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      await dispatch(logoutAction());
+    } catch ({ message }) {
+      console.log(message);
+    }
+  };
+
+  const signup = async () => {
+    try {
+      await userService.create({ email, password });
+    } catch ({ message }) {
+      console.log(message);
+    }
+  };
+
+  return (
+    <>
+      <div>
+        Hello &nbsp;
+        { user ? user.email : 'react' }
+      </div>
+      <div>
+        { !user && <button type="button" onClick={signup}>signup</button> }
+        { !user && <button type="button" onClick={login}>login</button> }
+        { !!user && <button type="button" onClick={logout}>logout</button> }
+      </div>
+    </>
+  );
+};
 
 export default App;
