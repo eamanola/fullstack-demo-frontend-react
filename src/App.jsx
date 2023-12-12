@@ -3,7 +3,6 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {
-  login as loginAction,
   logout as logoutAction,
   fromLocalStorage as fromLocalStorageAction,
 } from './reducers/user';
@@ -16,7 +15,7 @@ import {
   remove as removeNoteAction,
 } from './reducers/notes';
 
-import userService from './services/users';
+import LoginPage from './pages/LoginPage';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -35,25 +34,6 @@ const App = () => {
       dispatch(clearNotesAction());
     }
   }, [user]);
-
-  const email = 'foo2@example.com';
-  const password = '1223';
-
-  const signup = async () => {
-    try {
-      await userService.create({ email, password });
-    } catch ({ message }) {
-      console.log(message);
-    }
-  };
-
-  const login = async () => {
-    try {
-      await dispatch(loginAction({ email, password }));
-    } catch ({ message }) {
-      console.log(message);
-    }
-  };
 
   const logout = async () => {
     try {
@@ -87,50 +67,45 @@ const App = () => {
     }
   };
 
+  if (!user) return <LoginPage from="/" />;
+
   return (
     <>
       <div>
         Hello &nbsp;
-        { user ? user.email : 'react' }
+        { user.email }
       </div>
       <div>
-        { !user && <button type="button" onClick={signup}>signup</button> }
-        { !user && <button type="button" onClick={login}>login</button> }
-        { !!user && <button type="button" onClick={logout}>logout</button> }
-
-        {
-          user && (
-            <>
-              <div>
-                <button type="button" onClick={addNote}>Add new</button>
+        <button type="button" onClick={logout}>logout</button>
+        <div>
+          <div>
+            <button type="button" onClick={addNote}>Add new</button>
+          </div>
+          {
+            (notes || []).map((note) => (
+              <div key={note.id}>
+                <span>
+                  { note.text }
+                  &nbsp;
+                  { note.public ? 'public' : 'private' }
+                </span>
+                <button
+                  type="button"
+                  onClick={() => updateNote({ ...note, text: (note.text === 'foo' ? 'bar' : 'foo') })}
+                >
+                  update text
+                </button>
+                <button
+                  type="button"
+                  onClick={() => updateNote({ ...note, public: !note.public })}
+                >
+                  update visibility
+                </button>
+                <button type="button" onClick={() => removeNote(note)}>remove</button>
               </div>
-              {
-                (notes || []).map((note) => (
-                  <div key={note.id}>
-                    <span>
-                      { note.text }
-                      &nbsp;
-                      { note.public ? 'public' : 'private' }
-                    </span>
-                    <button
-                      type="button"
-                      onClick={() => updateNote({ ...note, text: (note.text === 'foo' ? 'bar' : 'foo') })}
-                    >
-                      update text
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => updateNote({ ...note, public: !note.public })}
-                    >
-                      update visibility
-                    </button>
-                    <button type="button" onClick={() => removeNote(note)}>remove</button>
-                  </div>
-                ))
-              }
-            </>
-          )
-        }
+            ))
+          }
+        </div>
       </div>
     </>
   );
