@@ -1,9 +1,9 @@
 import React from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import {
-  add as addNoteAction,
   update as updateNoteAction,
   remove as removeNoteAction,
 } from '../reducers/notes';
@@ -15,14 +15,6 @@ const NotesListPage = () => {
 
   const notes = useSelector((state) => state.notes);
   const user = useSelector((state) => state.user);
-
-  const addNote = async () => {
-    try {
-      await dispatch(addNoteAction(user, { text: 'foo', public: false }));
-    } catch ({ message }) {
-      console.log(message);
-    }
-  };
 
   const updateNote = async (updatedNote) => {
     try {
@@ -50,12 +42,13 @@ const NotesListPage = () => {
   return (
     <div>
       <div>
-        <button type="button" onClick={addNote}>Add new</button>
+        <Link to="/notes/new">Add new</Link>
       </div>
       {
         (notes || []).map((note) => (
           <NoteListItem
             key={note.id}
+            editPage={`/notes/edit/${note.id}`}
             text={note.text}
             isPublic={note.public}
             onToggleVisibility={() => toggleVisibility(note)}

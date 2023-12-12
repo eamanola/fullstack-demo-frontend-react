@@ -1,14 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { Link } from 'react-router-dom';
+
 const NoteListItem = ({
+  editPage,
   text,
   isPublic,
   onToggleVisibility,
   onRemove,
 }) => (
   <div>
-    <span>{ text }</span>
+    <Link to={editPage}>{ text }</Link>
     <button
       type="button"
       onClick={onToggleVisibility}
@@ -21,6 +24,7 @@ const NoteListItem = ({
 );
 
 NoteListItem.propTypes = {
+  editPage: PropTypes.string.isRequired,
   text: PropTypes.string.isRequired,
   isPublic: PropTypes.bool.isRequired,
   onToggleVisibility: PropTypes.func.isRequired,
