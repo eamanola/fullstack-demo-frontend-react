@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import GenericError from './generic-error';
+
 import config from '../config';
 
 const { BACKEND_URL } = config;
@@ -11,7 +13,7 @@ const create = async ({ email, password }) => {
       { email, password },
     );
   } catch (e) {
-    const { message } = e.response.data;
+    const { message } = e?.response?.data || GenericError;
     throw new Error(message);
   }
 };
@@ -27,7 +29,7 @@ const fetchToken = async ({ email, password }) => {
 
     return token;
   } catch (e) {
-    const { message } = e.response.data;
+    const { message } = e?.response?.data || GenericError;
     throw new Error(message);
   }
 };

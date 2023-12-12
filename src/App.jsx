@@ -27,7 +27,14 @@ const App = () => {
 
   useEffect(() => {
     if (user) {
-      dispatch(initNotesAction(user));
+      const initNotes = async () => {
+        try {
+          await dispatch(initNotesAction(user));
+        } catch ({ message }) {
+          console.log(message);
+        }
+      };
+      initNotes();
     } else {
       dispatch(clearNotesAction());
     }

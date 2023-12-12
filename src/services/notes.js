@@ -1,5 +1,7 @@
 import axios from 'axios';
 
+import GenericError from './generic-error';
+
 import config from '../config';
 
 const { BACKEND_URL } = config;
@@ -16,7 +18,7 @@ const create = async ({ token }, newNote) => {
 
     return note;
   } catch (e) {
-    const { message } = e.response.data;
+    const { message } = e?.response?.data || GenericError;
     throw new Error(message);
   }
 };
@@ -32,7 +34,7 @@ const byId = async ({ token }, noteId) => {
 
     return note;
   } catch (e) {
-    const { message } = e.response.data;
+    const { message } = e?.response?.data || GenericError;
     throw new Error(message);
   }
 };
@@ -48,7 +50,7 @@ const byOwner = async ({ token }) => {
 
     return notes;
   } catch (e) {
-    const { message } = e.response.data;
+    const { message } = e?.response?.data || GenericError;
     throw new Error(message);
   }
 };
@@ -65,7 +67,7 @@ const update = async ({ token }, updatedNote) => {
 
     return note;
   } catch (e) {
-    const { message } = e.response.data;
+    const { message } = e?.response?.data || GenericError;
     throw new Error(message);
   }
 };
@@ -77,7 +79,7 @@ const remove = async ({ token }, noteId) => {
       { headers: { authorization: `bearer ${token}` } },
     );
   } catch (e) {
-    const { message } = e.response.data;
+    const { message } = e?.response?.data || GenericError;
     throw new Error(message);
   }
 };
