@@ -1,9 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-
-import userService from '../services/users';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { login as loginAction } from '../reducers/user';
 
@@ -12,16 +10,6 @@ import EmailPasswordForm from '../components/EmailPasswordForm';
 const LoginPage = ({ from = '/' }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const signup = async () => {
-    const email = 'foo2@example.com';
-    const password = '1223';
-    try {
-      await userService.create({ email, password });
-    } catch ({ message }) {
-      console.log(message);
-    }
-  };
 
   const login = async (e) => {
     e.preventDefault();
@@ -47,7 +35,7 @@ const LoginPage = ({ from = '/' }) => {
       <EmailPasswordForm onSubmit={login}>
         <button type="submit">login</button>
       </EmailPasswordForm>
-      <button type="button" onClick={signup}>signup</button>
+      <Link to="/signup">signup</Link>
     </>
   );
 };
