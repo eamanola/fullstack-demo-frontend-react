@@ -30,7 +30,7 @@ const NotesEditPage = () => {
     const updatedNote = {
       ...note,
       text,
-      public: isPublic,
+      isPublic,
       imageUrl,
     };
 
@@ -49,7 +49,7 @@ const NotesEditPage = () => {
     <NotesEditForm
       onSubmit={onSubmit}
       text={note.text}
-      isPublic={note.public}
+      isPublic={note.isPublic}
       imageUrl={note.imageUrl}
     />
   );

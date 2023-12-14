@@ -26,7 +26,7 @@ const NotesEditPage = () => {
     const isPublic = isPublicInput.checked;
     const imageUrl = imageUrlInput.value || null;
 
-    const newNote = { text, public: isPublic, imageUrl };
+    const newNote = { text, isPublic, imageUrl };
 
     try {
       await dispatch(addNoteAction(user, newNote));

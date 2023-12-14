@@ -7,11 +7,22 @@ import { login as loginAction } from '../reducers/user';
 
 import EmailPasswordForm from '../components/EmailPasswordForm';
 
+import { DEV_USER_EMAIL, DEV_USER_PASSWORD } from '../config';
+
 const LoginPage = ({ from = '/' }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const login = async (e) => {
+  const login = async ({ email, password }) => {
+    try {
+      await dispatch(loginAction({ email, password }));
+      navigate(from);
+    } catch ({ message }) {
+      console.log(message);
+    }
+  };
+
+  const onSubmit = async (e) => {
     e.preventDefault();
 
     const {
@@ -22,18 +33,26 @@ const LoginPage = ({ from = '/' }) => {
     const email = emailInput.value;
     const password = passwordInput.value;
 
-    try {
-      await dispatch(loginAction({ email, password }));
-      navigate(from);
-    } catch ({ message }) {
-      console.log(message);
-    }
+    await login(email, password);
   };
 
   return (
     <>
-      <EmailPasswordForm onSubmit={login}>
+      <EmailPasswordForm onSubmit={onSubmit}>
         <button type="submit">login</button>
+        {
+          DEV_USER_EMAIL && (
+            <button
+              type="button"
+              onClick={() => login({
+                email: DEV_USER_EMAIL,
+                password: DEV_USER_PASSWORD,
+              })}
+            >
+              dev user
+            </button>
+          )
+        }
       </EmailPasswordForm>
       <Link to="/signup">signup</Link>
     </>

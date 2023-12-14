@@ -26,7 +26,7 @@ const NotesListPage = () => {
 
   const toggleVisibility = (note) => updateNote({
     ...note,
-    public: !note.public,
+    isPublic: !note.isPublic,
   });
 
   const removeNote = async (note) => {
@@ -50,7 +50,7 @@ const NotesListPage = () => {
             key={note.id}
             editPage={`/notes/edit/${note.id}`}
             text={note.text}
-            isPublic={note.public}
+            isPublic={note.isPublic}
             onToggleVisibility={() => toggleVisibility(note)}
             onRemove={() => removeNote(note)}
           />

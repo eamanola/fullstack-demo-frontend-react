@@ -8,8 +8,7 @@ import { login as loginAction } from '../reducers/user';
 
 import EmailPasswordForm from '../components/EmailPasswordForm';
 
-// const email = 'foo2@example.com';
-// const password = '1223';
+import { DEV_USER_EMAIL, DEV_USER_PASSWORD } from '../config';
 
 const SignupPage = () => {
   const dispatch = useDispatch();
@@ -20,19 +19,7 @@ const SignupPage = () => {
     navigate('/');
   };
 
-  const signup = async (e) => {
-    e.preventDefault();
-
-    const {
-      email: emailInput,
-      password: passwordInput,
-      confirmPassword: confirmPasswordInput,
-    } = e.target.elements;
-
-    const email = emailInput.value;
-    const password = passwordInput.value;
-    const confirmPassword = confirmPasswordInput.value;
-
+  const signup = async ({ email, password, confirmPassword }) => {
     try {
       if (confirmPassword !== password) {
         throw new Error('passwords dont match');
@@ -45,9 +32,25 @@ const SignupPage = () => {
     }
   };
 
+  const onSubmit = async (e) => {
+    e.preventDefault();
+
+    const {
+      email: emailInput,
+      password: passwordInput,
+      confirmPassword: confirmPasswordInput,
+    } = e.target.elements;
+
+    const email = emailInput.value;
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+
+    await signup({ email, password, confirmPassword });
+  };
+
   return (
     <>
-      <EmailPasswordForm onSubmit={signup}>
+      <EmailPasswordForm onSubmit={onSubmit}>
         <input
           type="password"
           placeholder="confirm password"
@@ -55,6 +58,20 @@ const SignupPage = () => {
           name="confirmPassword"
         />
         <button type="submit">signup</button>
+        {
+          DEV_USER_EMAIL && (
+            <button
+              type="button"
+              onClick={() => signup({
+                email: DEV_USER_EMAIL,
+                password: DEV_USER_PASSWORD,
+                confirmPassword: DEV_USER_PASSWORD,
+              })}
+            >
+              dev user
+            </button>
+          )
+        }
       </EmailPasswordForm>
       <Link to="/login">login</Link>
     </>
