@@ -15,8 +15,12 @@ const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        index: true,
-        element: <NotesListPage />,
+        path: '/login',
+        element: <LoginPage />,
+      },
+      {
+        path: '/signup',
+        element: <SignupPage />,
       },
       {
         path: 'notes/new',
@@ -26,15 +30,11 @@ const router = createBrowserRouter([
         path: 'notes/edit/:noteId',
         element: <NotesEditPage />,
       },
+      {
+        index: true,
+        element: <NotesListPage />,
+      },
     ],
-  },
-  {
-    path: '/login',
-    element: <LoginPage />,
-  },
-  {
-    path: '/signup',
-    element: <SignupPage />,
   },
 ]);
 

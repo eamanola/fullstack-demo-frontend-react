@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 
 import {
   logout as logoutAction,
@@ -12,12 +12,18 @@ import {
   clear as clearNotesAction,
 } from './reducers/notes';
 
+import { notification as notificationAction } from './reducers/notification';
+
 import Dashboard from './components/Dashboard';
 
 const App = () => {
   const dispatch = useDispatch();
 
   const user = useSelector((state) => state.user);
+
+  const notification = useSelector(((state) => state.notification));
+
+  const { pathname } = useLocation();
 
   useEffect(() => {
     dispatch(fromLocalStorageAction());
@@ -29,7 +35,7 @@ const App = () => {
         try {
           await dispatch(initNotesAction(user));
         } catch ({ message }) {
-          console.log(message);
+          dispatch(notificationAction(message));
         }
       };
       initNotes();
@@ -42,7 +48,7 @@ const App = () => {
     try {
       await dispatch(logoutAction());
     } catch ({ message }) {
-      console.log(message);
+      dispatch(notificationAction(message));
     }
   };
 
@@ -51,9 +57,15 @@ const App = () => {
       <Dashboard
         email={user?.email}
         onLogout={user && logout}
-        loginUrl={!user ? '/login' : null}
-        signupUrl={!user ? '/signup' : null}
+        loginUrl={!user && pathname !== '/login' ? '/login' : null}
+        signupUrl={!user && pathname !== '/signup' ? '/signup' : null}
       />
+
+      {
+        notification
+          ? <div>{notification}</div>
+          : <div>&nbsp;</div>
+      }
 
       <Outlet />
     </>

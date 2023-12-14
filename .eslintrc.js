@@ -22,6 +22,6 @@ module.exports = {
     sourceType: 'module',
   },
   rules: {
-    "react/function-component-definition": [2, { "namedComponents": "arrow-function" }]
+    'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
   },
 };

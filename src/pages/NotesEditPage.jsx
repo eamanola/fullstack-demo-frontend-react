@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import { update as updateNoteAction } from '../reducers/notes';
+import { notification as notificationAction } from '../reducers/notification';
 
 import NotesEditForm from '../components/NotesEditForm';
 
@@ -39,7 +40,7 @@ const NotesEditPage = () => {
 
       navigate('/');
     } catch ({ message }) {
-      console.log(message);
+      dispatch(notificationAction(message));
     }
   };
 

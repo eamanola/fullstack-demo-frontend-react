@@ -1,10 +1,11 @@
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import userService from '../services/users';
 
 import { login as loginAction } from '../reducers/user';
+import { notification as notificationAction } from '../reducers/notification';
 
 import EmailPasswordForm from '../components/EmailPasswordForm';
 
@@ -28,7 +29,7 @@ const SignupPage = () => {
       await userService.create({ email, password });
       await login({ email, password });
     } catch ({ message }) {
-      console.log(message);
+      dispatch(notificationAction(message));
     }
   };
 
@@ -49,32 +50,29 @@ const SignupPage = () => {
   };
 
   return (
-    <>
-      <EmailPasswordForm onSubmit={onSubmit}>
-        <input
-          type="password"
-          placeholder="confirm password"
-          required
-          name="confirmPassword"
-        />
-        <button type="submit">signup</button>
-        {
-          DEV_USER_EMAIL && (
-            <button
-              type="button"
-              onClick={() => signup({
-                email: DEV_USER_EMAIL,
-                password: DEV_USER_PASSWORD,
-                confirmPassword: DEV_USER_PASSWORD,
-              })}
-            >
-              dev user
-            </button>
-          )
-        }
-      </EmailPasswordForm>
-      <Link to="/login">login</Link>
-    </>
+    <EmailPasswordForm onSubmit={onSubmit}>
+      <input
+        type="password"
+        placeholder="confirm password"
+        required
+        name="confirmPassword"
+      />
+      <button type="submit">signup</button>
+      {
+        DEV_USER_EMAIL && (
+          <button
+            type="button"
+            onClick={() => signup({
+              email: DEV_USER_EMAIL,
+              password: DEV_USER_PASSWORD,
+              confirmPassword: DEV_USER_PASSWORD,
+            })}
+          >
+            dev user
+          </button>
+        )
+      }
+    </EmailPasswordForm>
   );
 };
 

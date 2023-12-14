@@ -3,10 +3,8 @@ import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import {
-  update as updateNoteAction,
-  remove as removeNoteAction,
-} from '../reducers/notes';
+import { update as updateNoteAction, remove as removeNoteAction } from '../reducers/notes';
+import { notification as notificationAction } from '../reducers/notification';
 
 import NoteListItem from '../components/NoteListItem';
 
@@ -20,7 +18,7 @@ const NotesListPage = () => {
     try {
       dispatch(updateNoteAction(user, updatedNote));
     } catch ({ message }) {
-      console.log(message);
+      dispatch(notificationAction(message));
     }
   };
 
@@ -33,7 +31,7 @@ const NotesListPage = () => {
     try {
       dispatch(removeNoteAction(user, note));
     } catch ({ message }) {
-      console.log(message);
+      dispatch(notificationAction(message));
     }
   };
 

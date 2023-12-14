@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import { login as loginAction } from '../reducers/user';
+import { notification as notificationAction } from '../reducers/notification';
 
 import EmailPasswordForm from '../components/EmailPasswordForm';
 
@@ -18,7 +19,7 @@ const LoginPage = ({ from = '/' }) => {
       await dispatch(loginAction({ email, password }));
       navigate(from);
     } catch ({ message }) {
-      console.log(message);
+      dispatch(notificationAction(message));
     }
   };
 
@@ -33,29 +34,26 @@ const LoginPage = ({ from = '/' }) => {
     const email = emailInput.value;
     const password = passwordInput.value;
 
-    await login(email, password);
+    await login({ email, password });
   };
 
   return (
-    <>
-      <EmailPasswordForm onSubmit={onSubmit}>
-        <button type="submit">login</button>
-        {
-          DEV_USER_EMAIL && (
-            <button
-              type="button"
-              onClick={() => login({
-                email: DEV_USER_EMAIL,
-                password: DEV_USER_PASSWORD,
-              })}
-            >
-              dev user
-            </button>
-          )
-        }
-      </EmailPasswordForm>
-      <Link to="/signup">signup</Link>
-    </>
+    <EmailPasswordForm onSubmit={onSubmit}>
+      <button type="submit">login</button>
+      {
+        DEV_USER_EMAIL && (
+          <button
+            type="button"
+            onClick={() => login({
+              email: DEV_USER_EMAIL,
+              password: DEV_USER_PASSWORD,
+            })}
+          >
+            dev user
+          </button>
+        )
+      }
+    </EmailPasswordForm>
   );
 };
 
