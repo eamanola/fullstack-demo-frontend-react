@@ -12,7 +12,7 @@ import {
   clear as clearNotesAction,
 } from './reducers/notes';
 
-import LoginPage from './pages/LoginPage';
+import Dashboard from './components/Dashboard';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -46,15 +46,14 @@ const App = () => {
     }
   };
 
-  if (!user) return <LoginPage from="/" />;
-
   return (
     <>
-      <div>
-        Hello &nbsp;
-        { user.email }
-        <button type="button" onClick={logout}>logout</button>
-      </div>
+      <Dashboard
+        email={user?.email}
+        onLogout={user && logout}
+        loginUrl={!user ? '/login' : null}
+        signupUrl={!user ? '/signup' : null}
+      />
 
       <Outlet />
     </>
