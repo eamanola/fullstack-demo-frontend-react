@@ -1,8 +1,4 @@
-import {
-  createStore,
-  combineReducers,
-  applyMiddleware,
-} from 'redux';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { withExtraArgument } from 'redux-thunk';
 
 import userReducer from './reducers/user';

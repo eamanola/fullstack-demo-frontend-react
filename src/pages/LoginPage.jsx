@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -17,13 +18,14 @@ const LoginPage = ({ from = '/' }) => {
   const login = async ({ email, password }) => {
     try {
       await dispatch(loginAction({ email, password }));
+
       navigate(from);
     } catch ({ message }) {
       dispatch(notificationAction(message));
     }
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
 
     const {
@@ -34,12 +36,13 @@ const LoginPage = ({ from = '/' }) => {
     const email = emailInput.value;
     const password = passwordInput.value;
 
-    await login({ email, password });
+    login({ email, password });
   };
 
   return (
     <EmailPasswordForm onSubmit={onSubmit}>
       <button type="submit">login</button>
+
       {
         DEV_USER_EMAIL && (
           <button

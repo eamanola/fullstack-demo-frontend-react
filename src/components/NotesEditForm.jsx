@@ -1,5 +1,4 @@
 import React from 'react';
-
 import PropTypes from 'prop-types';
 
 const NotesEditForm = ({
@@ -16,12 +15,14 @@ const NotesEditForm = ({
       placeholder="text"
       required
     />
+
     <input
       type="text"
       defaultValue={imageUrl}
       name="imageUrl"
       placeholder="image url"
     />
+
     <label htmlFor="isPublic">
       public:
       <input

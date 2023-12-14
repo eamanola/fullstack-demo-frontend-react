@@ -1,4 +1,5 @@
 import React from 'react';
+
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
@@ -15,10 +16,7 @@ const SignupPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const login = async ({ email, password }) => {
-    await dispatch(loginAction({ email, password }));
-    navigate('/');
-  };
+  const login = ({ email, password }) => dispatch(loginAction({ email, password }));
 
   const signup = async ({ email, password, confirmPassword }) => {
     try {
@@ -27,13 +25,16 @@ const SignupPage = () => {
       }
 
       await userService.create({ email, password });
+
       await login({ email, password });
+
+      navigate('/');
     } catch ({ message }) {
       dispatch(notificationAction(message));
     }
   };
 
-  const onSubmit = async (e) => {
+  const onSubmit = (e) => {
     e.preventDefault();
 
     const {
@@ -46,7 +47,7 @@ const SignupPage = () => {
     const password = passwordInput.value;
     const confirmPassword = confirmPasswordInput.value;
 
-    await signup({ email, password, confirmPassword });
+    signup({ email, password, confirmPassword });
   };
 
   return (
@@ -57,7 +58,9 @@ const SignupPage = () => {
         required
         name="confirmPassword"
       />
+
       <button type="submit">signup</button>
+
       {
         DEV_USER_EMAIL && (
           <button

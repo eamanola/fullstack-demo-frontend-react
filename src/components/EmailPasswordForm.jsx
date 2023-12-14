@@ -9,12 +9,14 @@ const EmailPasswordForm = ({ onSubmit, children }) => (
       required
       name="email"
     />
+
     <input
       placeholder="password"
       type="password"
       required
       name="password"
     />
+
     {children}
   </form>
 );

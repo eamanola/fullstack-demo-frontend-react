@@ -16,8 +16,11 @@ const Dashboard = ({
         {email}
       </span>
     )}
+
     { onLogout && <button type="button" onClick={onLogout}>logout</button> }
+
     { loginUrl && <Link to={loginUrl}>Login</Link> }
+
     { signupUrl && <Link to={signupUrl}>Signup</Link> }
   </div>
 );

@@ -1,8 +1,7 @@
 import usersService from '../services/users';
 
-const LSKey = 'loggedUser';
-
 const INITIAL_STATE = null;
+const LSKey = 'loggedUser';
 
 const reducer = (state, action) => {
   let newState;

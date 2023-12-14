@@ -19,18 +19,28 @@ const reducer = (state, action) => {
   return newState;
 };
 
-let notificationTimeout;
+let notificationTimeout = 0;
+const clearNotificationTimeout = () => {
+  if (notificationTimeout) clearTimeout(notificationTimeout);
+  notificationTimeout = 0;
+};
 
 const clear = () => (dispatch) => {
+  clearNotificationTimeout();
+
   dispatch({ type: 'NOTIFICATION_RM' });
 };
 
+const startNotificationTimeout = (dispatch) => {
+  notificationTimeout = setTimeout(() => clear()(dispatch), 5000);
+};
+
 const notification = (message) => async (dispatch) => {
-  if (notificationTimeout) clearTimeout(notificationTimeout);
+  clearNotificationTimeout();
 
   dispatch({ type: 'NOTIFICATION_SET', message });
 
-  notificationTimeout = setTimeout(() => clear()(dispatch), 5000);
+  startNotificationTimeout(dispatch);
 };
 
 export {

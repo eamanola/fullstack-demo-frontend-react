@@ -11,12 +11,12 @@ import NoteListItem from '../components/NoteListItem';
 const NotesListPage = () => {
   const dispatch = useDispatch();
 
-  const notes = useSelector((state) => state.notes);
   const user = useSelector((state) => state.user);
+  const notes = useSelector((state) => state.notes);
 
   const updateNote = async (updatedNote) => {
     try {
-      dispatch(updateNoteAction(user, updatedNote));
+      await dispatch(updateNoteAction(user, updatedNote));
     } catch ({ message }) {
       dispatch(notificationAction(message));
     }
@@ -29,7 +29,7 @@ const NotesListPage = () => {
 
   const removeNote = async (note) => {
     try {
-      dispatch(removeNoteAction(user, note));
+      await dispatch(removeNoteAction(user, note));
     } catch ({ message }) {
       dispatch(notificationAction(message));
     }
@@ -42,6 +42,7 @@ const NotesListPage = () => {
       <div>
         <Link to="/notes/new">Add new</Link>
       </div>
+
       {
         (notes || []).map((note) => (
           <NoteListItem

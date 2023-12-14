@@ -12,13 +12,12 @@ const NoteListItem = ({
 }) => (
   <div>
     <Link to={editPage}>{ text }</Link>
-    <button
-      type="button"
-      onClick={onToggleVisibility}
-    >
+
+    <button type="button" onClick={onToggleVisibility}>
       make &nbsp;
       {isPublic ? 'private' : 'public'}
     </button>
+
     <button type="button" onClick={onRemove}>remove</button>
   </div>
 );

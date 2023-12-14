@@ -10,10 +10,21 @@ import NotesEditForm from '../components/NotesEditForm';
 
 const NotesEditPage = () => {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const { noteId } = useParams();
-  const note = useSelector((state) => state.notes.find(({ id }) => id === noteId));
   const navigate = useNavigate();
+  const { noteId } = useParams();
+
+  const user = useSelector((state) => state.user);
+  const note = useSelector((state) => state.notes.find(({ id }) => id === noteId));
+
+  const updateNote = async (updatedNote) => {
+    try {
+      await dispatch(updateNoteAction(user, updatedNote));
+
+      navigate('/');
+    } catch ({ message }) {
+      dispatch(notificationAction(message));
+    }
+  };
 
   const onSubmit = async (e) => {
     e.preventDefault();
@@ -28,20 +39,12 @@ const NotesEditPage = () => {
     const isPublic = isPublicInput.checked;
     const imageUrl = imageUrlInput.value || null;
 
-    const updatedNote = {
+    updateNote({
       ...note,
       text,
       isPublic,
       imageUrl,
-    };
-
-    try {
-      await dispatch(updateNoteAction(user, updatedNote));
-
-      navigate('/');
-    } catch ({ message }) {
-      dispatch(notificationAction(message));
-    }
+    });
   };
 
   if (!user || !note) return null;

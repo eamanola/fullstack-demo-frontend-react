@@ -1,29 +1,20 @@
 import React, { useEffect } from 'react';
+
 import { useSelector, useDispatch } from 'react-redux';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import {
-  logout as logoutAction,
-  fromLocalStorage as fromLocalStorageAction,
-} from './reducers/user';
-
-import {
-  init as initNotesAction,
-  clear as clearNotesAction,
-} from './reducers/notes';
-
+import { logout as logoutAction, fromLocalStorage as fromLocalStorageAction } from './reducers/user';
+import { init as initNotesAction, clear as clearNotesAction } from './reducers/notes';
 import { notification as notificationAction } from './reducers/notification';
 
 import Dashboard from './components/Dashboard';
 
 const App = () => {
   const dispatch = useDispatch();
+  const { pathname } = useLocation();
 
   const user = useSelector((state) => state.user);
-
   const notification = useSelector(((state) => state.notification));
-
-  const { pathname } = useLocation();
 
   useEffect(() => {
     dispatch(fromLocalStorageAction());
