@@ -18,7 +18,7 @@ const App = () => {
 
   useEffect(() => {
     dispatch(fromLocalStorageAction());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     if (user) {
@@ -33,7 +33,7 @@ const App = () => {
     } else {
       dispatch(clearNotesAction());
     }
-  }, [user]);
+  }, [user, dispatch]);
 
   const logout = async () => {
     try {
