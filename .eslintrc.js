@@ -15,5 +15,10 @@ module.exports = {
   },
   rules: {
     'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
+    // 'sort-keys': ['error'],
+    // 'require-unicode-regexp': ['error'],
+    // 'prefer-named-capture-group': ['error'],
+    // 'no-console': ['warn', { allow: ['info', 'warn', 'error'] }],
+    // 'no-throw-literal': ['off'],
   },
 };

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 import { update as updateNoteAction, remove as removeNoteAction } from '../reducers/notes';
-import { notification as notificationAction } from '../reducers/notification';
+import { notification as notificationAction } from '../../reducers/notification';
 
 import NoteListItem from '../components/NoteListItem';
 

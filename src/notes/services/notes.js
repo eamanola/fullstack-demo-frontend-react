@@ -1,8 +1,8 @@
 import axios from 'axios';
 
-import GenericError from './generic-error';
+import GenericError from '../../services/generic-error';
 
-import config from '../config';
+import config from '../../config';
 
 const { BACKEND_URL } = config;
 

@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { add as addNoteAction } from '../reducers/notes';
-import { notification as notificationAction } from '../reducers/notification';
+import { notification as notificationAction } from '../../reducers/notification';
 
 import NotesEditForm from '../components/NotesEditForm';
 

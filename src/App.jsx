@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Outlet, useLocation } from 'react-router-dom';
 
 import { logout as logoutAction, fromLocalStorage as fromLocalStorageAction } from './reducers/user';
-import { init as initNotesAction, clear as clearNotesAction } from './reducers/notes';
+import { actions as notesActions } from './notes';
 import { notification as notificationAction } from './reducers/notification';
 
 import Dashboard from './components/Dashboard';
@@ -24,14 +24,14 @@ const App = () => {
     if (user) {
       const initNotes = async () => {
         try {
-          await dispatch(initNotesAction(user));
+          await dispatch(notesActions.init(user));
         } catch ({ message }) {
           dispatch(notificationAction(message));
         }
       };
       initNotes();
     } else {
-      dispatch(clearNotesAction());
+      dispatch(notesActions.clear());
     }
   }, [user, dispatch]);
 
