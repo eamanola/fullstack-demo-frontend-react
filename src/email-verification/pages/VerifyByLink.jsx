@@ -13,8 +13,10 @@ const VerifyByLink = () => {
   useEffect(() => {
     if (status === 'success') {
       dispatch(setEmailVerified());
+    } else {
+      dispatch(notification('Something went wrong'));
     }
-    dispatch(notification(status === 'success' ? 'verified' : 'Something went wrong'));
+
     navigate('/');
   }, [status, dispatch, navigate]);
 

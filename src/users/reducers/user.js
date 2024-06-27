@@ -1,3 +1,4 @@
+import { notification } from '../../reducers/notification';
 import usersService from '../services/users';
 
 const INITIAL_STATE = null;
@@ -64,6 +65,7 @@ const setEmailVerified = () => async (dispatch) => {
   }
 
   dispatch({ type: 'USER_EMAIL_VERIFIED' });
+  dispatch(notification('email verified'));
 };
 
 export {

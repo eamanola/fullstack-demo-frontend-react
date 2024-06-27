@@ -27,6 +27,21 @@ const request = async (email) => {
   }
 };
 
+const verifyByCode = async ({ token }, code) => {
+  try {
+    const { status } = await axios.patch(
+      `${BACKEND_URL}/email-verification`,
+      { code },
+      { headers: { authorization: `bearer ${token}` } },
+    );
+
+    return status === 200;
+  } catch (e) {
+    const { message } = e?.response?.data || GenericError;
+    throw new Error(message);
+  }
+};
+
 // const fetchToken = async ({ email, password }) => {
 //   try {
 //     const { token } = (
@@ -45,6 +60,7 @@ const request = async (email) => {
 
 const emailVerificationServices = {
   request,
+  verifyByCode,
 };
 
 export default emailVerificationServices;

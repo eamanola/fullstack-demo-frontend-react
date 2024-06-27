@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { Outlet, useLocation } from 'react-router-dom';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { actions as usersActions } from './users';
 import { actions as notesActions } from './notes';
@@ -13,6 +13,7 @@ import Dashboard from './components/Dashboard';
 const App = () => {
   const dispatch = useDispatch();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
 
   const user = useSelector((state) => state.user);
   const notification = useSelector(((state) => state.notification));
@@ -24,11 +25,11 @@ const App = () => {
   useEffect(() => {
     if (user) {
       const initNotes = async () => {
-        try {
-          // await dispatch(notesActions.init(user));
-        } catch ({ message }) {
-          // dispatch(notificationAction(message));
-        }
+        // try {
+        //   await dispatch(notesActions.init(user));
+        // } catch ({ message }) {
+        //   dispatch(notificationAction(message));
+        // }
       };
       initNotes();
     } else {
@@ -47,6 +48,7 @@ const App = () => {
   const verify = async () => {
     try {
       await dispatch(emailVerificationActions.request(user.email));
+      navigate('/email/verify/by-code');
     } catch ({ message }) {
       if (message === 'User email is verified') {
         dispatch(notificationAction('Already verified'));
@@ -62,7 +64,7 @@ const App = () => {
       <Dashboard
         email={user?.email}
         onLogout={user && logout}
-        onVerify={user && !user.emailVerified && verify}
+        onVerify={(user && !user.emailVerified) ? verify : null}
         loginUrl={!user && pathname !== '/login' ? '/login' : null}
         signupUrl={!user && pathname !== '/signup' ? '/signup' : null}
       />
