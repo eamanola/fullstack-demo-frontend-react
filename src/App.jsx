@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Outlet, useLocation } from 'react-router-dom';
 
-import { logout as logoutAction, fromLocalStorage as fromLocalStorageAction } from './reducers/user';
+import { actions as usersActions } from './users';
 import { actions as notesActions } from './notes';
 import { notification as notificationAction } from './reducers/notification';
 
@@ -17,7 +17,7 @@ const App = () => {
   const notification = useSelector(((state) => state.notification));
 
   useEffect(() => {
-    dispatch(fromLocalStorageAction());
+    dispatch(usersActions.fromLocalStorage());
   }, [dispatch]);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const App = () => {
 
   const logout = async () => {
     try {
-      await dispatch(logoutAction());
+      await dispatch(usersActions.logout());
     } catch ({ message }) {
       dispatch(notificationAction(message));
     }

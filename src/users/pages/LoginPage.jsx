@@ -5,11 +5,11 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 
 import { login as loginAction } from '../reducers/user';
-import { notification as notificationAction } from '../reducers/notification';
+import { notification as notificationAction } from '../../reducers/notification';
 
 import EmailPasswordForm from '../components/EmailPasswordForm';
 
-import { DEV_USER_EMAIL, DEV_USER_PASSWORD } from '../config';
+import { DEV_USER_EMAIL, DEV_USER_PASSWORD } from '../../config';
 
 const LoginPage = ({ from = '/' }) => {
   const dispatch = useDispatch();

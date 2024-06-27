@@ -1,7 +1,7 @@
 import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { withExtraArgument } from 'redux-thunk';
 
-import userReducer from './reducers/user';
+import { reducer as userReducer } from './users';
 import notificationReducer from './reducers/notification';
 import { reducer as notesReducer } from './notes';
 

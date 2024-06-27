@@ -6,11 +6,11 @@ import { useNavigate } from 'react-router-dom';
 import userService from '../services/users';
 
 import { login as loginAction } from '../reducers/user';
-import { notification as notificationAction } from '../reducers/notification';
+import { notification as notificationAction } from '../../reducers/notification';
 
 import EmailPasswordForm from '../components/EmailPasswordForm';
 
-import { DEV_USER_EMAIL, DEV_USER_PASSWORD } from '../config';
+import { DEV_USER_EMAIL, DEV_USER_PASSWORD } from '../../config';
 
 const SignupPage = () => {
   const dispatch = useDispatch();
