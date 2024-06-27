@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Outlet, useLocation, useNavigate } from 'react-router-dom';
 
 import { actions as usersActions } from './users';
-import { actions as notesActions } from './notes';
 import { actions as emailVerificationActions } from './email-verification';
 import { notification as notificationAction } from './reducers/notification';
 
@@ -21,21 +20,6 @@ const App = () => {
   useEffect(() => {
     dispatch(usersActions.fromLocalStorage());
   }, [dispatch]);
-
-  useEffect(() => {
-    if (user) {
-      const initNotes = async () => {
-        // try {
-        //   await dispatch(notesActions.init(user));
-        // } catch ({ message }) {
-        //   dispatch(notificationAction(message));
-        // }
-      };
-      initNotes();
-    } else {
-      dispatch(notesActions.clear());
-    }
-  }, [user, dispatch]);
 
   const logout = async () => {
     try {
