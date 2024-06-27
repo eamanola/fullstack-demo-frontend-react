@@ -8,6 +8,7 @@ const Dashboard = ({
   onLogout = null,
   loginUrl = null,
   signupUrl = null,
+  onVerify = null,
 }) => (
   <div>
     { email && (
@@ -18,6 +19,8 @@ const Dashboard = ({
     )}
 
     { onLogout && <button type="button" onClick={onLogout}>logout</button> }
+
+    { onVerify && <button type="button" onClick={onVerify}>verify</button> }
 
     { loginUrl && <Link to={loginUrl}>Login</Link> }
 
@@ -30,6 +33,7 @@ Dashboard.propTypes = {
   onLogout: PropTypes.func,
   loginUrl: PropTypes.string,
   signupUrl: PropTypes.string,
+  onVerify: PropTypes.func,
 };
 
 export default Dashboard;

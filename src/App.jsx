@@ -5,6 +5,7 @@ import { Outlet, useLocation } from 'react-router-dom';
 
 import { actions as usersActions } from './users';
 import { actions as notesActions } from './notes';
+import { actions as emailVerificationActions } from './email-verification';
 import { notification as notificationAction } from './reducers/notification';
 
 import Dashboard from './components/Dashboard';
@@ -24,9 +25,9 @@ const App = () => {
     if (user) {
       const initNotes = async () => {
         try {
-          await dispatch(notesActions.init(user));
+          // await dispatch(notesActions.init(user));
         } catch ({ message }) {
-          dispatch(notificationAction(message));
+          // dispatch(notificationAction(message));
         }
       };
       initNotes();
@@ -43,11 +44,25 @@ const App = () => {
     }
   };
 
+  const verify = async () => {
+    try {
+      await dispatch(emailVerificationActions.request(user.email));
+    } catch ({ message }) {
+      if (message === 'User email is verified') {
+        dispatch(notificationAction('Already verified'));
+        dispatch(usersActions.setEmailVerified());
+      } else {
+        dispatch(notificationAction(message));
+      }
+    }
+  };
+
   return (
     <>
       <Dashboard
         email={user?.email}
         onLogout={user && logout}
+        onVerify={user && !user.emailVerified && verify}
         loginUrl={!user && pathname !== '/login' ? '/login' : null}
         signupUrl={!user && pathname !== '/signup' ? '/signup' : null}
       />

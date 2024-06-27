@@ -1,6 +1,6 @@
 const {
   NODE_ENV,
-  REACT_APP_BACKEND_URL = 'http://localhost:3000',
+  REACT_APP_BACKEND_URL = 'http://localhost:3001',
 } = process.env;
 
 const isDev = NODE_ENV === 'development';

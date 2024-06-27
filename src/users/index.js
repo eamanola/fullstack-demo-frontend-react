@@ -1,7 +1,17 @@
-import reducer, { login, logout, fromLocalStorage } from './reducers/user';
+import reducer, {
+  login,
+  logout,
+  fromLocalStorage,
+  setEmailVerified,
+} from './reducers/user';
 import router from './router';
 
-const actions = { login, logout, fromLocalStorage };
+const actions = {
+  login,
+  logout,
+  fromLocalStorage,
+  setEmailVerified,
+};
 
 export {
   actions,

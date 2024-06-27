@@ -15,6 +15,10 @@ const reducer = (state, action) => {
       newState = null;
       break;
 
+    case 'USER_EMAIL_VERIFIED':
+      newState = { ...state, emailVerified: true };
+      break;
+
     default:
       newState = state || INITIAL_STATE;
   }
@@ -49,10 +53,24 @@ const fromLocalStorage = () => async (dispatch) => {
   }
 };
 
+const setEmailVerified = () => async (dispatch) => {
+  const savedUser = localStorage.getItem(LSKey);
+  if (savedUser) {
+    const user = JSON.parse(savedUser);
+    localStorage.setItem(LSKey, JSON.stringify({
+      ...user,
+      emailVerified: true,
+    }));
+  }
+
+  dispatch({ type: 'USER_EMAIL_VERIFIED' });
+};
+
 export {
   login,
   logout,
   fromLocalStorage,
+  setEmailVerified,
 };
 
 export default reducer;
