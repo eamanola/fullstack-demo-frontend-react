@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 const Dashboard = ({
-  email,
-  onLogout,
-  loginUrl,
-  signupUrl,
+  email = null,
+  onLogout = null,
+  loginUrl = null,
+  signupUrl = null,
 }) => (
   <div>
     { email && (
@@ -30,13 +30,6 @@ Dashboard.propTypes = {
   onLogout: PropTypes.func,
   loginUrl: PropTypes.string,
   signupUrl: PropTypes.string,
-};
-
-Dashboard.defaultProps = {
-  email: null,
-  onLogout: null,
-  loginUrl: null,
-  signupUrl: null,
 };
 
 export default Dashboard;

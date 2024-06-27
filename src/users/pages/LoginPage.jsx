@@ -64,8 +64,4 @@ LoginPage.propTypes = {
   from: PropTypes.string,
 };
 
-LoginPage.defaultProps = {
-  from: '/',
-};
-
 export default LoginPage;

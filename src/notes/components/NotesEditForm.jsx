@@ -44,10 +44,4 @@ NotesEditForm.propTypes = {
   imageUrl: PropTypes.string,
 };
 
-NotesEditForm.defaultProps = {
-  text: null,
-  isPublic: false,
-  imageUrl: null,
-};
-
 export default NotesEditForm;
