@@ -1,16 +1,15 @@
 import React, { useEffect } from 'react';
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { Outlet } from 'react-router-dom';
 
 import { actions as usersActions } from './users';
 
 import Dashboard from './components/Dashboard';
+import Notification from './components/Notification';
 
 const App = () => {
   const dispatch = useDispatch();
-
-  const notification = useSelector(((state) => state.notification));
 
   useEffect(() => {
     dispatch(usersActions.fromLocalStorage());
@@ -20,11 +19,7 @@ const App = () => {
     <>
       <Dashboard />
 
-      {
-        notification
-          ? <div>{notification}</div>
-          : <div>&nbsp;</div>
-      }
+      <Notification />
 
       <Outlet />
     </>
