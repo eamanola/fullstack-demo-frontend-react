@@ -1,39 +1,58 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Link } from 'react-router-dom';
+import { actions as usersActions } from '../users';
+import { actions as emailVerificationActions, REQUEST_STATES } from '../email-verification';
+import { notification as notificationAction } from '../reducers/notification';
 
-const Dashboard = ({
-  email = null,
-  onLogout = null,
-  loginUrl = null,
-  signupUrl = null,
-  onVerify = null,
-}) => (
-  <div>
-    { email && (
-      <span>
-        Hello&nbsp;
-        {email}
-      </span>
-    )}
+const Dashboard = () => {
+  const dispatch = useDispatch();
+  const user = useSelector((state) => state.user);
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
 
-    { onLogout && <button type="button" onClick={onLogout}>logout</button> }
+  const logout = async () => {
+    try {
+      await dispatch(usersActions.logout());
+    } catch ({ message }) {
+      dispatch(notificationAction(message));
+    }
+  };
 
-    { onVerify && <button type="button" onClick={onVerify}>verify</button> }
+  const requestVerification = async () => {
+    try {
+      const requestState = await dispatch(emailVerificationActions.request(user.email));
 
-    { loginUrl && <Link to={loginUrl}>Login</Link> }
+      if (requestState === REQUEST_STATES.REQUESTED) {
+        dispatch(notificationAction('you should receive an email shortly'));
+        navigate('/email/verify/by-code');
+      } else if (requestState === REQUEST_STATES.ALREADY_VERIFIED) {
+        dispatch(notificationAction('Already verified'));
+      }
+    } catch ({ message }) {
+      dispatch(notificationAction(message));
+    }
+  };
 
-    { signupUrl && <Link to={signupUrl}>Signup</Link> }
-  </div>
-);
+  return (
+    <div>
+      { user && (
+        <span>
+          Hello&nbsp;
+          {user.email}
+        </span>
+      )}
 
-Dashboard.propTypes = {
-  email: PropTypes.string,
-  onLogout: PropTypes.func,
-  loginUrl: PropTypes.string,
-  signupUrl: PropTypes.string,
-  onVerify: PropTypes.func,
+      { user && <button type="button" onClick={logout}>logout</button> }
+
+      { (user && !user?.emailVerified) && <button type="button" onClick={requestVerification}>verify</button> }
+
+      { (!user && pathname !== '/login') && <Link to="/login">Login</Link> }
+
+      { (!user && pathname !== '/signup') && <Link to="/signup">Signup</Link> }
+    </div>
+  );
 };
 
 export default Dashboard;

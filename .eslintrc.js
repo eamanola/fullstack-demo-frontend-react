@@ -15,6 +15,7 @@ module.exports = {
   },
   rules: {
     'react/function-component-definition': [2, { namedComponents: 'arrow-function' }],
+    'react/require-default-props': ['off'],
     // 'sort-keys': ['error'],
     // 'require-unicode-regexp': ['error'],
     // 'prefer-named-capture-group': ['error'],

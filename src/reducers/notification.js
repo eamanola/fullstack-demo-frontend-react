@@ -45,7 +45,6 @@ const notification = (message) => async (dispatch) => {
 
 export {
   notification,
-  clear,
 };
 
 export default reducer;

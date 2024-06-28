@@ -4,7 +4,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import { notification } from '../../reducers/notification';
 import { setEmailVerified } from '../../users/reducers/user';
 
-const VerifyByLink = () => {
+const VerifiedByLink = () => {
   const { status } = useParams();
 
   const dispatch = useDispatch();
@@ -23,4 +23,4 @@ const VerifyByLink = () => {
   return null;
 };
 
-export default VerifyByLink;
+export default VerifiedByLink;
