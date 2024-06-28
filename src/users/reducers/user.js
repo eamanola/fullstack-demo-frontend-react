@@ -28,9 +28,9 @@ const reducer = (state, action) => {
 };
 
 const login = ({ email, password }, keepLoggedIn = true) => async (dispatch) => {
-  const token = await usersService.fetchToken({ email, password });
+  const { token, emailVerified } = await usersService.login({ email, password });
 
-  const user = { email, token };
+  const user = { email, token, emailVerified };
 
   dispatch({ type: 'USER_SET', user });
 

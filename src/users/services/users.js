@@ -18,16 +18,16 @@ const create = async ({ email, password }) => {
   }
 };
 
-const fetchToken = async ({ email, password }) => {
+const login = async ({ email, password }) => {
   try {
-    const { token } = (
+    const { token, emailVerified } = (
       await axios.post(
         `${BACKEND_URL}/login`,
         { email, password },
       )
     ).data;
 
-    return token;
+    return { token, emailVerified };
   } catch (e) {
     const { message } = e?.response?.data || GenericError;
     throw new Error(message);
@@ -36,7 +36,7 @@ const fetchToken = async ({ email, password }) => {
 
 const userService = {
   create,
-  fetchToken,
+  login,
 };
 
 export default userService;
